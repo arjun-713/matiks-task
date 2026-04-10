@@ -10,6 +10,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { ComboStreakBadge } from '../components/ComboStreakBadge';
+import { ConfettiCanvas } from '../components/ConfettiCanvas';
 import { RankReveal } from '../components/RankReveal';
 import { ScoreCounter } from '../components/ScoreCounter';
 import { ShareButton } from '../components/ShareButton';
@@ -31,7 +32,7 @@ const StatChip = ({ label, value }: { label: string; value: string }) => (
 );
 
 export const ScoreRevealScreen = () => {
-  const { rankVisible, markScoreComplete } = useAnimationSequence();
+  const { rankVisible, confettiBurst, markScoreComplete } = useAnimationSequence();
   const orbShift = useSharedValue(0);
 
   useEffect(() => {
@@ -50,6 +51,7 @@ export const ScoreRevealScreen = () => {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar style="light" />
       <View style={styles.screen}>
+        <ConfettiCanvas trigger={confettiBurst} />
         <Animated.View entering={FadeIn.duration(500)} style={styles.header}>
           <Text style={styles.logo}>Matiks Arena</Text>
           <Text style={styles.headline}>Match complete. Your final burst landed hard.</Text>
