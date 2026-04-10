@@ -30,6 +30,7 @@ export const ScoreCounter = ({
   const score = useSharedValue(0);
   const haloScale = useSharedValue(0.88);
   const haloOpacity = useSharedValue(0.2);
+  const counterScale = useSharedValue(0.96);
 
   const animatedProps = useAnimatedProps(() => {
     const value = Math.round(score.value);
@@ -45,7 +46,7 @@ export const ScoreCounter = ({
   }));
 
   const scorePlateStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: 0.98 + haloOpacity.value * 0.03 }],
+    transform: [{ scale: counterScale.value }],
   }));
 
   useDerivedValue(() => score.value);
@@ -59,16 +60,30 @@ export const ScoreCounter = ({
       withTiming(0.42, { duration: duration * 0.55, easing: Easings.scoreCount }),
       withTiming(0.26, { duration: Timing.scoreOvershoot }),
     );
-    score.value = withSequence(
-      withTiming(finalScore * 1.08, { duration, easing: Easings.scoreCount }),
-      withSpring(finalScore, Springs.snappy, (finished) => {
-        'worklet';
-        if (finished && onComplete) {
-          runOnJS(onComplete)();
-        }
-      }),
+    counterScale.value = withSequence(
+      withTiming(1, { duration: duration * 0.82, easing: Easings.scoreCount }),
+      withTiming(1.05, { duration: 110 }),
+      withSpring(1, Springs.snappy),
     );
-  }, [duration, finalScore, haloOpacity, haloScale, onComplete, score]);
+    score.value = withTiming(
+      finalScore,
+      { duration, easing: Easings.scoreCount },
+      (finished) => {
+        'worklet';
+        if (finished) {
+          counterScale.value = withSequence(
+            withTiming(1.03, { duration: 80 }),
+            withSpring(1, Springs.snappy, (settled) => {
+              'worklet';
+              if (settled && onComplete) {
+                runOnJS(onComplete)();
+              }
+            }),
+          );
+        }
+      },
+    );
+  }, [counterScale, duration, finalScore, haloOpacity, haloScale, onComplete, score]);
 
   return (
     <View
