@@ -1,24 +1,27 @@
+import { Platform } from 'react-native';
 import { Easing } from 'react-native-reanimated';
+
+const isAndroid = Platform.OS === 'android';
 
 export const Springs = {
   snappy: {
-    damping: 12,
-    stiffness: 180,
+    damping: isAndroid ? 14 : 12,
+    stiffness: isAndroid ? 210 : 180,
     mass: 1,
   },
   bouncy: {
-    damping: 8,
-    stiffness: 200,
+    damping: isAndroid ? 10 : 8,
+    stiffness: isAndroid ? 220 : 200,
     mass: 0.8,
   },
   gentle: {
-    damping: 18,
-    stiffness: 120,
+    damping: isAndroid ? 20 : 18,
+    stiffness: isAndroid ? 138 : 120,
     mass: 1,
   },
   press: {
-    damping: 20,
-    stiffness: 400,
+    damping: isAndroid ? 22 : 20,
+    stiffness: isAndroid ? 430 : 400,
     mass: 0.6,
   },
 } as const;

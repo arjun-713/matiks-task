@@ -51,7 +51,10 @@ export const RankReveal = ({
   }));
 
   return (
-    <Animated.View style={[styles.card, cardStyle]}>
+    <Animated.View
+      accessibilityLabel={`Rank ${rank} of ${totalPlayers.toLocaleString()} players`}
+      style={[styles.card, cardStyle]}
+    >
       <Text style={styles.rankLabel}>Rank Reveal</Text>
       <Text style={styles.rankValue}>
         #{rank} <Text style={styles.rankDetail}>of {totalPlayers.toLocaleString()} players</Text>

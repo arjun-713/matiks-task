@@ -71,7 +71,11 @@ export const ScoreCounter = ({
   }, [duration, finalScore, haloOpacity, haloScale, onComplete, score]);
 
   return (
-    <View style={styles.wrapper}>
+    <View
+      accessibilityLabel={`Final score ${finalScore.toLocaleString()}`}
+      accessibilityRole="summary"
+      style={styles.wrapper}
+    >
       <Animated.View style={[styles.scoreHalo, scoreShadowStyle]} />
       <Animated.View style={[styles.scorePlate, scorePlateStyle]}>
         <AnimatedTextInput

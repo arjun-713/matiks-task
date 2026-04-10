@@ -67,7 +67,9 @@ export const ShareButton = ({
 
   return (
     <AnimatedPressable
+      accessibilityRole="button"
       accessibilityLabel={label}
+      accessibilityHint="Shares your Matiks match result"
       onPressIn={handlePressIn}
       onPressOut={handlePressOut}
       onPress={onShare}
